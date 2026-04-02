@@ -1,0 +1,7 @@
+verse-1.txt
+
+chorus-1.txt
+
+verse-2.txt
+
+chorus-1.txt

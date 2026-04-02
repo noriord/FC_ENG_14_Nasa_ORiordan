@@ -1,0 +1,283 @@
+commit cf4f3ad1b3a254b7bd955637a84bdbe6951e518d
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:39:24 2026 +0100
+
+    Remove duplicate chorus file
+
+diff --git a/chorus-1.txt b/chorus-1.txt
+index 795bcde..04fac36 100644
+--- a/chorus-1.txt
++++ b/chorus-1.txt
+@@ -1,4 +1,4 @@
+ Oops, I did it again, I played with your heart
+ Got lost in the game, oh, baby, baby
+ Oops, you think I'm in love, that I'm sent from above
+-
++I'm not that innocent
+
+commit a42f978e7ed81d8be22bf41d02fead1566cdb1be
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:32:21 2026 +0100
+
+    Remove 1 line from chorus
+
+diff --git a/chorus-1.txt b/chorus-1.txt
+index 04fac36..795bcde 100644
+--- a/chorus-1.txt
++++ b/chorus-1.txt
+@@ -1,4 +1,4 @@
+ Oops, I did it again, I played with your heart
+ Got lost in the game, oh, baby, baby
+ Oops, you think I'm in love, that I'm sent from above
+-I'm not that innocent
++
+
+commit d7e618cd813cb9825d8067ee44886b0f051c5cde
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:17:35 2026 +0100
+
+    Replace chorus 1 with filename
+
+diff --git a/chorus-1.txt b/chorus-1.txt
+new file mode 100644
+index 0000000..04fac36
+--- /dev/null
++++ b/chorus-1.txt
+@@ -0,0 +1,4 @@
++Oops, I did it again, I played with your heart
++Got lost in the game, oh, baby, baby
++Oops, you think I'm in love, that I'm sent from above
++I'm not that innocent
+commit 3be490b3f98bbf3c39ce8184ae3579a0a7ffaace
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:19:37 2026 +0100
+
+    Add verse 2
+
+diff --git a/verse-2.txt b/verse-2.txt
+new file mode 100644
+index 0000000..1676a4b
+--- /dev/null
++++ b/verse-2.txt
+@@ -0,0 +1,8 @@
++You see, my problem is this
++I'm dreaming away, wishing that heroes, they truly exist
++I cry watching the days
++Can't you see I'm a fool in so many ways?
++
++But to lose all my senses
++That is just so typically me
++Oh, baby, oh
+commit cf4f3ad1b3a254b7bd955637a84bdbe6951e518d
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:39:24 2026 +0100
+
+    Remove duplicate chorus file
+
+diff --git a/song.txt b/song.txt
+index 088cb5b..d96b3d1 100644
+--- a/song.txt
++++ b/song.txt
+@@ -4,4 +4,4 @@ chorus-1.txt
+ 
+ verse-2.txt
+ 
+-chorus-2.txt
+\ No newline at end of file
++chorus-1.txt
+\ No newline at end of file
+
+commit a0ec03243bc03554381517cce3ab478251b7a704
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:22:40 2026 +0100
+
+    replace chorus 2 with filename
+
+diff --git a/song.txt b/song.txt
+index ef4b4b4..088cb5b 100644
+--- a/song.txt
++++ b/song.txt
+@@ -4,7 +4,4 @@ chorus-1.txt
+ 
+ verse-2.txt
+ 
+-Oops, I did it again, I played with your heart
+-Got lost in the game, oh, baby, baby
+-Oops, you think I'm in love, that I'm sent from above
+-I'm not that innocent
+\ No newline at end of file
++chorus-2.txt
+\ No newline at end of file
+
+commit 1a5cfec6fa10f6fa31df054dd010f85f47d6022d
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:20:25 2026 +0100
+
+    Replace verse 2 with filename
+
+diff --git a/song.txt b/song.txt
+index caacaf2..ef4b4b4 100644
+--- a/song.txt
++++ b/song.txt
+@@ -2,14 +2,7 @@ verse-1.txt
+ 
+ chorus-1.txt
+ 
+-You see, my problem is this
+-I'm dreaming away, wishing that heroes, they truly exist
+-I cry watching the days
+-Can't you see I'm a fool in so many ways?
+-
+-But to lose all my senses
+-That is just so typically me
+-Oh, baby, oh
++verse-2.txt
+ 
+ Oops, I did it again, I played with your heart
+ Got lost in the game, oh, baby, baby
+
+commit d7e618cd813cb9825d8067ee44886b0f051c5cde
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:17:35 2026 +0100
+
+    Replace chorus 1 with filename
+
+diff --git a/song.txt b/song.txt
+index f7b31cf..caacaf2 100644
+--- a/song.txt
++++ b/song.txt
+@@ -1,9 +1,6 @@
+ verse-1.txt
+ 
+-Oops, I did it again, I played with your heart
+-Got lost in the game, oh, baby, baby
+-Oops, you think I'm in love, that I'm sent from above
+-I'm not that innocent
++chorus-1.txt
+ 
+ You see, my problem is this
+ I'm dreaming away, wishing that heroes, they truly exist
+
+commit 9396ea811f9535fafa70d3c0d5c18abf4ecbb3fe
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:09:04 2026 +0100
+
+    Replace verse 1 with filename
+
+diff --git a/song.txt b/song.txt
+index 22ce50c..f7b31cf 100644
+--- a/song.txt
++++ b/song.txt
+@@ -1,11 +1,4 @@
+-I think I did it again
+-I made you believe we're more than just friends
+-Oh, baby, it might seem like a crush
+-But it doesn't mean that I'm serious
+-
+-'Cause to lose all my senses
+-That is just so typically me
+-Ooh, baby, baby
++verse-1.txt
+ 
+ Oops, I did it again, I played with your heart
+ Got lost in the game, oh, baby, baby
+
+commit 17d60421a09f59efb51256f45c110a234dc14688
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:02:30 2026 +0100
+
+    Add Britney Spears song
+
+diff --git a/song.txt b/song.txt
+new file mode 100644
+index 0000000..22ce50c
+--- /dev/null
++++ b/song.txt
+@@ -0,0 +1,27 @@
++I think I did it again
++I made you believe we're more than just friends
++Oh, baby, it might seem like a crush
++But it doesn't mean that I'm serious
++
++'Cause to lose all my senses
++That is just so typically me
++Ooh, baby, baby
++
++Oops, I did it again, I played with your heart
++Got lost in the game, oh, baby, baby
++Oops, you think I'm in love, that I'm sent from above
++I'm not that innocent
++
++You see, my problem is this
++I'm dreaming away, wishing that heroes, they truly exist
++I cry watching the days
++Can't you see I'm a fool in so many ways?
++
++But to lose all my senses
++That is just so typically me
++Oh, baby, oh
++
++Oops, I did it again, I played with your heart
++Got lost in the game, oh, baby, baby
++Oops, you think I'm in love, that I'm sent from above
++I'm not that innocent
+\ No newline at end of file
+commit cf4f3ad1b3a254b7bd955637a84bdbe6951e518d
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:39:24 2026 +0100
+
+    Remove duplicate chorus file
+
+commit a42f978e7ed81d8be22bf41d02fead1566cdb1be
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:32:21 2026 +0100
+
+    Remove 1 line from chorus
+
+commit a0ec03243bc03554381517cce3ab478251b7a704
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:22:40 2026 +0100
+
+    replace chorus 2 with filename
+
+commit dfc13b8ff9e49ac0d1e8317a817b654b2946d8d2
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:21:43 2026 +0100
+
+    Add chorus 2
+
+commit 1a5cfec6fa10f6fa31df054dd010f85f47d6022d
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:20:25 2026 +0100
+
+    Replace verse 2 with filename
+
+commit 3be490b3f98bbf3c39ce8184ae3579a0a7ffaace
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:19:37 2026 +0100
+
+    Add verse 2
+
+commit d7e618cd813cb9825d8067ee44886b0f051c5cde
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:17:35 2026 +0100
+
+    Replace chorus 1 with filename
+
+commit 9396ea811f9535fafa70d3c0d5c18abf4ecbb3fe
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:09:04 2026 +0100
+
+    Replace verse 1 with filename
+
+commit 6adca169a05ee98309133a11b78d57685917d3b1
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:07:09 2026 +0100
+
+    Add verse 1
+
+commit 17d60421a09f59efb51256f45c110a234dc14688
+Author: O'Riordan <noriord@amazon.com>
+Date:   Tue Mar 31 21:02:30 2026 +0100
+
+    Add Britney Spears song
