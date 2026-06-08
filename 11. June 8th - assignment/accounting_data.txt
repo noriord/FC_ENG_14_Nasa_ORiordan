@@ -1,0 +1,13 @@
+BALANCE
+974.0
+PRODUCTS
+apple|5.0|7
+END_PRODUCTS
+SALES
+apple|3
+END_SALES
+OPERATIONS
+balance|1000.0
+purchase|apple|5.0|10
+sale|apple|8.0|3
+END_OPERATIONS
