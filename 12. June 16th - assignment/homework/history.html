@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>History - Warehouse Manager</title>
+    <meta name="author" content="" />
+    <meta name="description" content="Transaction history" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+</head>
+<body>
+    <div class="container grid-lg">
+
+        <!-- Navigation -->
+        <header class="navbar">
+            <section class="navbar-section">
+                <a href="index.html" class="navbar-brand mr-2">Warehouse Manager</a>
+            </section>
+            <section class="navbar-section">
+                <a href="index.html" class="btn btn-link">Home</a>
+                <a href="history.html" class="btn btn-link">History</a>
+            </section>
+        </header>
+
+        <!-- History Content -->
+        <div class="columns" style="margin-top: 2rem;">
+            <div class="column col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5">Transaction History</div>
+                        <div class="card-subtitle text-gray">View all past operations</div>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- Filter form for optional from/to parameters -->
+                        <form method="GET" action="/history" style="margin-bottom: 1.5rem;">
+                            <div class="columns">
+                                <div class="column col-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="line-from">From (line number)</label>
+                                        <input class="form-input" type="number" id="line-from"
+                                               name="from" placeholder="Start line" min="0" step="1" />
+                                    </div>
+                                </div>
+                                <div class="column col-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="line-to">To (line number)</label>
+                                        <input class="form-input" type="number" id="line-to"
+                                               name="to" placeholder="End line" min="0" step="1" />
+                                    </div>
+                                </div>
+                                <div class="column col-4">
+                                    <div class="form-group">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button class="btn btn-primary btn-block" type="submit">Filter</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- History table -->
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Type</th>
+                                    <th>Product</th>
+                                    <th>Unit Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Purchase</td>
+                                    <td>Widget A</td>
+                                    <td>5.00</td>
+                                    <td>100</td>
+                                    <td>500.00</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Sale</td>
+                                    <td>Widget A</td>
+                                    <td>8.00</td>
+                                    <td>50</td>
+                                    <td>400.00</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Balance +</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>1000.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

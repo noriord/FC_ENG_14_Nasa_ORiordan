@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Accounting & Warehouse Management</title>
+    <meta name="author" content="" />
+    <meta name="description" content="Warehouse and accounting management system" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
+</head>
+<body>
+    <div class="container grid-lg">
+
+        <!-- Navigation -->
+        <header class="navbar">
+            <section class="navbar-section">
+                <a href="index.html" class="navbar-brand mr-2">Warehouse Manager</a>
+            </section>
+            <section class="navbar-section">
+                <a href="http://127.0.0.1:5000" class="btn btn-link">Home</a>
+                <a href="http://127.0.0.1:5000/history" class="btn btn-link">History</a>
+            </section>
+        </header>
+
+        <!-- ===== SECTION 1: Current Stock Level and Account Balance ===== -->
+        <div class="columns" style="margin-top: 2rem;">
+            <div class="column col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5">Current Stock Level</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="h3">150 items</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column col-6">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5">Account Balance</div>
+                    </div>
+                    <div class="card-body">
+                        <p class="h3">&euro;10,000.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SECTION 2: Purchase Form ===== -->
+        <div class="columns" style="margin-top: 2rem;">
+            <div class="column col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5">Purchase Product</div>
+                        <div class="card-subtitle text-gray">Add new stock to the warehouse</div>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/purchase">
+                            <div class="columns">
+                                <div class="column col-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="purchase-product">Product Name</label>
+                                        <input class="form-input" type="text" id="purchase-product"
+                                               name="product_name" placeholder="Enter product name" required />
+                                    </div>
+                                </div>
+                                <div class="column col-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="purchase-price">Unit Price</label>
+                                        <input class="form-input" type="number" id="purchase-price"
+                                               name="unit_price" placeholder="0.00" min="0.01" step="0.01" required />
+                                    </div>
+                                </div>
+                                <div class="column col-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="purchase-qty">Number of Pieces</label>
+                                        <input class="form-input" type="number" id="purchase-qty"
+                                               name="quantity" placeholder="0" min="1" step="1" required />
+                                    </div>
+                                </div>
+                                <div class="column col-2">
+                                    <div class="form-group">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SECTION 3: Sale Form ===== -->
+        <div class="columns" style="margin-top: 1rem;">
+            <div class="column col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5">Sell Product</div>
+                        <div class="card-subtitle text-gray">Record a sale from the warehouse</div>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/sale">
+                            <div class="columns">
+                                <div class="column col-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="sale-product">Product Name</label>
+                                        <input class="form-input" type="text" id="sale-product"
+                                               name="product_name" placeholder="Enter product name" required />
+                                    </div>
+                                </div>
+                                <div class="column col-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="sale-price">Unit Price</label>
+                                        <input class="form-input" type="number" id="sale-price"
+                                               name="unit_price" placeholder="0.00" min="0.01" step="0.01" required />
+                                    </div>
+                                </div>
+                                <div class="column col-3">
+                                    <div class="form-group">
+                                        <label class="form-label" for="sale-qty">Number of Pieces</label>
+                                        <input class="form-input" type="number" id="sale-qty"
+                                               name="quantity" placeholder="0" min="1" step="1" required />
+                                    </div>
+                                </div>
+                                <div class="column col-2">
+                                    <div class="form-group">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button class="btn btn-success btn-block" type="submit">Submit</button>
+                                    </div>
+</div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SECTION 4: Balance Change Form ===== -->
+        <div class="columns" style="margin-top: 1rem;">
+            <div class="column col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title h5">Balance Change</div>
+                        <div class="card-subtitle text-gray">Add or subtract from account balance</div>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/balance">
+                            <div class="columns">
+                                <div class="column col-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="operation-type">Type of Operation</label>
+                                        <select class="form-select" id="operation-type"
+                                                name="operation_type" required>
+                                            <option value="">-- Select --</option>
+                                            <option value="add">Add</option>
+                                            <option value="subtract">Subtract</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="column col-4">
+                                    <div class="form-group">
+                                        <label class="form-label" for="amount">Amount</label>
+                                        <input class="form-input" type="number" id="amount"
+                                               name="amount" placeholder="0.00" min="0.01" step="0.01" required />
+                                    </div>
+                                </div>
+                                <div class="column col-4">
+                                    <div class="form-group">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button class="btn btn-block" type="submit"
+                                                style="background: #ffb700; color: #fff;">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
