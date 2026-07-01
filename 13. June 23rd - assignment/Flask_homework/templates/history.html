@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>History</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+    <h1>Transaction History</h1>
+
+    <ul>
+        {% for entry in history %}
+        <li>{{ entry }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">Back to Main Page</a>
+
+</body>
+</html>

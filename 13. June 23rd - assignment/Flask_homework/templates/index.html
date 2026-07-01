@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Warehouse & Accounting</title>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+    <h1>Account Balance: {{ balance }}</h1>
+
+    <h2>Warehouse Stock</h2>
+    <table>
+        <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        {% for item in warehouse %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.quantity }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Change Balance</h2>
+    <form action="/balance" method="POST">
+        <label for="form_amount">Amount</label>
+        <input id="form_amount" name="form_amount" type="text">
+        <input type="submit" value="Update Balance">
+    </form>
+
+    <h2>Purchase Product</h2>
+    <form action="/purchase" method="POST">
+        <label for="form_product">Product Name</label>
+        <input id="form_product" name="form_product" type="text">
+        <label for="form_price">Price</label>
+        <input id="form_price" name="form_price" type="text">
+        <label for="form_quantity">Quantity</label>
+        <input id="form_quantity" name="form_quantity" type="text">
+        <input type="submit" value="Purchase">
+    </form>
+
+    <h2>Sell Product</h2>
+    <form action="/sale" method="POST">
+        <label for="form_product">Product Name</label>
+        <input id="form_product" name="form_product" type="text">
+        <label for="form_price">Sell Price</label>
+        <input id="form_price" name="form_price" type="text">
+        <label for="form_quantity">Quantity</label>
+        <input id="form_quantity" name="form_quantity" type="text">
+        <input type="submit" value="Sell">
+    </form>
+
+    <br>
+    <a href="/history/">View History</a>
+
+</body>
+</html>
