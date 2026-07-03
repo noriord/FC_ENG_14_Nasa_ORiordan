@@ -1,0 +1,55 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">✏️ Edit Event</h1>
+
+<div class="card mb-4">
+    <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Update Event Details</h5>
+    </div>
+    <div class="card-body">
+        <form action="/edit_event/{{ event.id }}" method="POST">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Event Name</label>
+                    <input type="text" name="event_name" class="form-control" value="{{ event.name }}" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Location</label>
+                    <select name="location" class="form-select">
+                        {% for location in locations %}
+                        <option value="{{ location.name }}" {% if location.name == event.location %}selected{% endif %}>{{ location.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Date From *</label>
+                    <input type="date" name="date_from" class="form-control" value="{{ event.date_from }}" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Date To <small class="text-muted">(optional)</small></label>
+                    <input type="date" name="date_to" class="form-control" value="{{ event.date_to or '' }}">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="form-label">Expected Attendees <small class="text-muted">(optional)</small></label>
+                    <input type="number" name="expected_attendees" class="form-control" value="{{ event.expected_attendees or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Actual Attendees <small class="text-muted">(optional)</small></label>
+                    <input type="number" name="actual_attendees" class="form-control" value="{{ event.actual_attendees or '' }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Current Status</label>
+                    <input type="text" class="form-control" value="{{ event.status }}" disabled>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">💾 Save Changes</button>
+            <a href="/" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+

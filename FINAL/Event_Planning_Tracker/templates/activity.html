@@ -1,0 +1,55 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">📋 Activity Log</h1>
+<p class="text-muted">All changes and actions are recorded here.</p>
+
+{% if logs %}
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>
+                        {% if log.type == 'expense_added' %}
+                            <span class="badge bg-danger">{{ log.type }}</span>
+                        {% elif log.type == 'expense_edited' %}
+                            <span class="badge bg-warning text-dark">{{ log.type }}</span>
+                        {% elif log.type == 'expense_deleted' %}
+                            <span class="badge bg-dark">{{ log.type }}</span>
+                        {% elif log.type == 'event_created' %}
+                            <span class="badge bg-success">{{ log.type }}</span>
+                        {% elif log.type == 'status_change' %}
+                            <span class="badge bg-primary">{{ log.type }}</span>
+                        {% elif log.type == 'budget_update' %}
+                            <span class="badge bg-info">{{ log.type }}</span>
+                        {% else %}
+                            <span class="badge bg-secondary">{{ log.type }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ log.description }}</td>
+                    <td>{{ log.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">No activity recorded yet.</div>
+{% endif %}
+
+<a href="/" class="btn btn-dark btn-lg mt-3">← Back to Home</a>
+{% endblock %}
+

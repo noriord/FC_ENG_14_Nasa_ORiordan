@@ -1,0 +1,114 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">⚙️ Settings</h1>
+<p class="text-muted mb-4">Manage your categories, locations, and exchange rate here. Any changes will automatically appear on the main page.</p>
+
+<!-- Exchange Rate -->
+<div class="card mb-4">
+    <div class="card-header text-white bg-success d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">💱 Exchange Rate (GBP → EUR)</h5>
+        <span class="badge bg-light text-dark">Current: £1 = €{{ exchange_rate.gbp_to_eur }}</span>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">Update this when the exchange rate changes. All new £ expenses will use this rate for conversion.</p>
+        <form action="/update_exchange_rate" method="POST" class="row g-2 align-items-end">
+            <div class="col-auto">
+                <label class="form-label">£1 = €</label>
+                <input type="text" name="gbp_to_eur" class="form-control" value="{{ exchange_rate.gbp_to_eur }}" required>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success">💾 Update Rate</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Manage Categories -->
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #6f42c1;">
+                <h5 class="mb-0">🏷️ Categories</h5>
+                <span class="badge bg-light text-dark">{{ categories|length }} total</span>
+            </div>
+            <div class="card-body">
+                <!-- Add New Category - PROMINENT -->
+                <div class="alert alert-success d-flex align-items-center mb-3">
+                    <form action="/add_category" method="POST" class="row g-2 w-100">
+                        <div class="col-8">
+                            <input type="text" name="category_name" class="form-control" placeholder="Type new category name..." required>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-success w-100">➕ Add New</button>
+                        </div>
+                    </form>
+                </div>
+
+                <h6 class="text-muted">Current Categories:</h6>
+                <table class="table table-sm table-bordered table-hover">
+                    <tbody>
+                        {% for category in categories %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-secondary">{{ category.name }}</span>
+                            </td>
+                            <td style="width: 80px; text-align: center;">
+                                <form action="/delete_category/{{ category.id }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete category: {{ category.name }}?')">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Locations -->
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header text-white d-flex justify-content-between align-items-center" style="background-color: #0d6efd;">
+                <h5 class="mb-0">📍 Locations</h5>
+                <span class="badge bg-light text-dark">{{ locations|length }} total</span>
+            </div>
+            <div class="card-body">
+                <!-- Add New Location - PROMINENT -->
+                <div class="alert alert-success d-flex align-items-center mb-3">
+                    <form action="/add_location" method="POST" class="row g-2 w-100">
+                        <div class="col-8">
+                            <input type="text" name="location_name" class="form-control" placeholder="Type new location name..." required>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-success w-100">➕ Add New</button>
+                        </div>
+                    </form>
+                </div>
+
+                <h6 class="text-muted">Current Locations:</h6>
+                <table class="table table-sm table-bordered table-hover">
+                    <tbody>
+                        {% for location in locations %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-primary">{{ location.name }}</span>
+                            </td>
+                            <td style="width: 80px; text-align: center;">
+                                <form action="/delete_location/{{ location.id }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete location: {{ location.name }}?')">🗑️</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="/" class="btn btn-dark btn-lg">← Back to Home</a>
+{% endblock %}
+

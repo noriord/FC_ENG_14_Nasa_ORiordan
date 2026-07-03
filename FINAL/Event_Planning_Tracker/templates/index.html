@@ -1,0 +1,310 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Event Planning Tracker</h1>
+
+<!-- Budget Overview Card -->
+<div class="card mb-4 border-primary">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">💰 Budget Overview</h5>
+    </div>
+    <div class="card-body">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <h6>Total Budget</h6>
+                <h3 class="text-primary">€{{ budget.total_budget|currency }}</h3>
+            </div>
+            <div class="col-md-4">
+                <h6>Spent</h6>
+                <h3 class="text-danger">€{{ budget.spent|currency }}</h3>
+            </div>
+            <div class="col-md-4">
+                <h6>Remaining</h6>
+                <h3 class="text-success">€{{ budget.remaining|currency }}</h3>
+            </div>
+        </div>
+        <div class="text-center mt-2">
+            <small class="text-muted">Current rate: £1 = €{{ exchange_rate.gbp_to_eur }}</small>
+        </div>
+        <hr>
+        <form action="/update_budget" method="POST" class="row g-2 align-items-end">
+            <div class="col-auto">
+                <label class="form-label">Set Total Budget (€)</label>
+                <input type="text" name="total_budget" class="form-control" required>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Quick Actions Bar -->
+<div class="d-flex gap-2 mb-4">
+    <a href="/activity/" class="btn btn-dark btn-lg">📋 View Activity Log</a>
+    <a href="/settings" class="btn btn-outline-secondary btn-lg">⚙️ Settings</a>
+</div>
+
+<!-- Expenses Table with Sorting and Edit/Delete -->
+<div class="card mb-4 border-warning">
+    <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">💸 Expense Report</h5>
+        <div class="d-flex gap-1">
+            <span class="badge bg-dark text-white">Sort by:</span>
+            <a href="/?exp_sort_by=amount&exp_sort_order={% if exp_sort_by == 'amount' and exp_sort_order == 'asc' %}desc{% else %}asc{% endif %}&sort_by={{ sort_by }}&sort_order={{ sort_order }}" class="btn btn-sm {% if exp_sort_by == 'amount' %}btn-dark{% else %}btn-outline-dark{% endif %}">
+                💶 Amount {% if exp_sort_by == 'amount' %}{% if exp_sort_order == 'asc' %}↑{% else %}↓{% endif %}{% endif %}
+            </a>
+            <a href="/?exp_sort_by=category&exp_sort_order={% if exp_sort_by == 'category' and exp_sort_order == 'asc' %}desc{% else %}asc{% endif %}&sort_by={{ sort_by }}&sort_order={{ sort_order }}" class="btn btn-sm {% if exp_sort_by == 'category' %}btn-dark{% else %}btn-outline-dark{% endif %}">
+                🏷️ Category {% if exp_sort_by == 'category' %}{% if exp_sort_order == 'asc' %}↑{% else %}↓{% endif %}{% endif %}
+            </a>
+            <a href="/?exp_sort_by=timestamp&exp_sort_order={% if exp_sort_by == 'timestamp' and exp_sort_order == 'asc' %}desc{% else %}asc{% endif %}&sort_by={{ sort_by }}&sort_order={{ sort_order }}" class="btn btn-sm {% if exp_sort_by == 'timestamp' %}btn-dark{% else %}btn-outline-dark{% endif %}">
+                📆 Date {% if exp_sort_by == 'timestamp' %}{% if exp_sort_order == 'asc' %}↑{% else %}↓{% endif %}{% endif %}
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        {% if expenses %}
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Event</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Original</th>
+                    <th>Amount (€)</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.id }}</td>
+                    <td>{{ expense.event.name }}</td>
+                    <td>{{ expense.description }}</td>
+                    <td><span class="badge bg-secondary">{{ expense.category }}</span></td>
+                    <td>
+                        {% if expense.original_currency == 'GBP' %}
+                            <span class="text-primary">£{{ expense.original_amount|currency }}</span>
+                        {% else %}
+                            <span class="text-muted">-</span>
+                        {% endif %}
+                    </td>
+                    <td>€{{ expense.amount|currency }}</td>
+                    <td>{{ expense.timestamp }}</td>
+                    <td>
+                        <a href="/edit_expense/{{ expense.id }}" class="btn btn-sm btn-outline-primary">✏️ Edit</a>
+                        <form action="/delete_expense/{{ expense.id }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this expense?')">🗑️ Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-info">No expenses recorded yet.</div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Events Table with Sorting and Edit/Delete -->
+<div class="card mb-4 border-success">
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">📅 Events</h5>
+        <div class="d-flex gap-1">
+            <span class="badge bg-light text-dark">Sort by:</span>
+            <a href="/?sort_by=date_from&sort_order={% if sort_by == 'date_from' and sort_order == 'asc' %}desc{% else %}asc{% endif %}&exp_sort_by={{ exp_sort_by }}&exp_sort_order={{ exp_sort_order }}" class="btn btn-sm {% if sort_by == 'date_from' %}btn-light{% else %}btn-outline-light{% endif %}">
+                📆 Date {% if sort_by == 'date_from' %}{% if sort_order == 'asc' %}↑{% else %}↓{% endif %}{% endif %}
+            </a>
+            <a href="/?sort_by=name&sort_order={% if sort_by == 'name' and sort_order == 'asc' %}desc{% else %}asc{% endif %}&exp_sort_by={{ exp_sort_by }}&exp_sort_order={{ exp_sort_order }}" class="btn btn-sm {% if sort_by == 'name' %}btn-light{% else %}btn-outline-light{% endif %}">
+                🔤 Name {% if sort_by == 'name' %}{% if sort_order == 'asc' %}↑{% else %}↓{% endif %}{% endif %}
+            </a>
+            <a href="/?sort_by=status&sort_order={% if sort_by == 'status' and sort_order == 'asc' %}desc{% else %}asc{% endif %}&exp_sort_by={{ exp_sort_by }}&exp_sort_order={{ exp_sort_order }}" class="btn btn-sm {% if sort_by == 'status' %}btn-light{% else %}btn-outline-light{% endif %}">
+                🏷️ Status {% if sort_by == 'status' %}{% if sort_order == 'asc' %}↑{% else %}↓{% endif %}{% endif %}
+            </a>
+            <a href="/?sort_by=location&sort_order={% if sort_by == 'location' and sort_order == 'asc' %}desc{% else %}asc{% endif %}&exp_sort_by={{ exp_sort_by }}&exp_sort_order={{ exp_sort_order }}" class="btn btn-sm {% if sort_by == 'location' %}btn-light{% else %}btn-outline-light{% endif %}">
+                📍 Location {% if sort_by == 'location' %}{% if sort_order == 'asc' %}↑{% else %}↓{% endif %}{% endif %}
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        {% if events %}
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Event</th>
+                    <th>Location</th>
+                    <th>Date</th>
+                    <th>Expected</th>
+                    <th>Actual</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in events %}
+                <tr>
+                    <td>{{ event.id }}</td>
+                    <td>{{ event.name }}</td>
+                    <td>{{ event.location }}</td>
+                    <td>{{ event.date_display }}</td>
+                    <td>{{ event.expected_attendees or '-' }}</td>
+                    <td>{{ event.actual_attendees or '-' }}</td>
+                    <td>
+                        {% if event.status == 'Completed' %}
+                            <span class="badge bg-success">{{ event.status }}</span>
+                        {% elif event.status == 'Confirmed' %}
+                            <span class="badge bg-primary">{{ event.status }}</span>
+                        {% elif event.status == 'Cancelled' %}
+                            <span class="badge bg-danger">{{ event.status }}</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">{{ event.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="/edit_event/{{ event.id }}" class="btn btn-sm btn-outline-primary">✏️ Edit</a>
+                        <form action="/delete_event/{{ event.id }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Delete event: {{ event.name }}? This will also delete all expenses linked to this event and refund the budget.')">🗑️ Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-info">No events created yet.</div>
+        {% endif %}
+    </div>
+</div>
+
+<hr>
+
+<!-- Add New Event -->
+<div class="card mb-4">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">➕ Add New Event</h5>
+    </div>
+    <div class="card-body">
+        <form action="/add_event" method="POST">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Event Name</label>
+                    <input type="text" name="event_name" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Location</label>
+                    <select name="location" class="form-select">
+                        {% for location in locations %}
+                        <option value="{{ location.name }}">{{ location.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Date From *</label>
+                    <input type="date" name="date_from" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Date To <small class="text-muted">(optional)</small></label>
+                    <input type="date" name="date_to" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="form-label">Expected Attendees <small class="text-muted">(optional)</small></label>
+                    <input type="number" name="expected_attendees" class="form-control" placeholder="Leave blank if unknown">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-info text-white">Add Event</button>
+        </form>
+    </div>
+</div>
+
+<!-- Add Expense -->
+<div class="card mb-4">
+    <div class="card-header bg-danger text-white">
+        <h5 class="mb-0">💸 Add Expense</h5>
+    </div>
+    <div class="card-body">
+        <form action="/add_expense" method="POST">
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <label class="form-label">Select Event</label>
+                    <select name="event_id" class="form-select" required>
+                        <option value="" disabled selected>-- Choose an event --</option>
+                        {% for event in active_events %}
+                        <option value="{{ event.id }}">{{ event.name }} ({{ event.location }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Description</label>
+                    <input type="text" name="description" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Currency</label>
+                    <select name="currency" class="form-select">
+                        <option value="EUR">€ Euro</option>
+                        <option value="GBP">£ Pound</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Amount</label>
+                    <input type="text" name="amount" class="form-control" required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Category</label>
+                    <select name="category" class="form-select">
+                        {% for category in categories %}
+                        <option value="{{ category.name }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <small class="text-muted">💡 If you select £ Pound, it will auto-convert to € using the current rate (£1 = €{{ exchange_rate.gbp_to_eur }})</small>
+            <br><br>
+            <button type="submit" class="btn btn-danger">Add Expense</button>
+        </form>
+    </div>
+</div>
+
+<!-- Update Event Status -->
+<div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+        <h5 class="mb-0">🔄 Update Event Status</h5>
+    </div>
+    <div class="card-body">
+        <form action="/update_status" method="POST">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label class="form-label">Select Event</label>
+                    <select name="event_id" class="form-select" required>
+                        <option value="" disabled selected>-- Choose an event --</option>
+                        {% for event in events %}
+                        <option value="{{ event.id }}">{{ event.name }} ({{ event.status }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">New Status</label>
+                    <select name="status" class="form-select">
+                        <option value="Planned">Planned</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Actual Attendees <small class="text-muted">(optional)</small></label>
+                    <input type="number" name="actual_attendees" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-secondary">Update Status</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
