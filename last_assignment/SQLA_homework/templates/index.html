@@ -1,0 +1,55 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Accounting System</h1>
+
+<h2>Account Balance: {{ balance }}</h2>
+
+<h2>Current Stock</h2>
+<table border="1">
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+    </tr>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.quantity }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+<h2>Purchase Product</h2>
+<form action="/purchase" method="POST">
+    <label>Product Name: <input type="text" name="product_name" required></label><br>
+    <label>Quantity: <input type="number" name="quantity" required></label><br>
+    <label>Unit Price: <input type="text" name="price" required></label><br>
+    <button type="submit">Purchase</button>
+</form>
+
+<hr>
+
+<h2>Sell Product</h2>
+<form action="/sale" method="POST">
+    <label>Product Name: <input type="text" name="product_name" required></label><br>
+    <label>Quantity: <input type="number" name="quantity" required></label><br>
+    <label>Unit Price: <input type="text" name="price" required></label><br>
+    <button type="submit">Sell</button>
+</form>
+
+<hr>
+
+<h2>Change Balance</h2>
+<form action="/balance" method="POST">
+    <label>Amount (positive to add, negative to subtract): <input type="text" name="amount" required></label><br>
+    <button type="submit">Update Balance</button>
+</form>
+
+<hr>
+
+<a href="/history/"><button>View History</button></a>
+{% endblock %}
+
